@@ -20,6 +20,8 @@ import { ScrollToTop } from "./components/common/ScrollToTop";
 import Home from "./pages/Dashboard/Home";
 import Landing from "./pages/Landing"; 
 import ExpensesList from "./components/ExpensesList";
+import HeadTransactions from "./components/HeadTransactions";
+import HeadDetails from "./pages/HeadDetails";
 
 export default function App() {
   return (
@@ -51,6 +53,9 @@ export default function App() {
             <Route path="/buttons" element={<Buttons />} />
             <Route path="/images" element={<Images />} />
             <Route path="/videos" element={<Videos />} />
+            <Route path="/heads" element = {<HeadTransactions/>} />
+            <Route path="/heads/:headName" element={<HeadDetails />} />
+
 
             {/* Charts */}
             <Route path="/line-chart" element={<LineChart />} />
