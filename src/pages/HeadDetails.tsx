@@ -76,9 +76,9 @@ export default function HeadDetails() {
 
     const headObj = heads.find((h) => h.name === txn.head);
     if (headObj) {
-      fetchCategories(headObj.id);
+      fetchCategories(headObj.uuid);
       const categoryObj = categories.find((c) => c.name === txn.category);
-      if (categoryObj) fetchSubcategories(categoryObj.id);
+      if (categoryObj) fetchSubcategories(categoryObj.uuid);
     }
 
     setIsEditModalOpen(true);
@@ -87,7 +87,7 @@ export default function HeadDetails() {
   const handleUpdateTransaction = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`${BASE_URL}/api/transactions/${editingTransaction.id}`, {
+      const res = await fetch(`${BASE_URL}/api/transactions/${editingTransaction.uuid}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -99,10 +99,10 @@ export default function HeadDetails() {
       if (!res.ok) throw new Error("Failed to update transaction");
 
       setTransactions((prev) =>
-        prev.map((txn) => (txn.id === editingTransaction.id ? editingTransaction : txn))
+        prev.map((txn) => (txn.uuid === editingTransaction.uuid ? editingTransaction : txn))
       );
       setFilteredTransactions((prev) =>
-        prev.map((txn) => (txn.id === editingTransaction.id ? editingTransaction : txn))
+        prev.map((txn) => (txn.uuid === editingTransaction.uuid ? editingTransaction : txn))
       );
 
       setIsEditModalOpen(false);
@@ -140,7 +140,7 @@ export default function HeadDetails() {
         </thead>
         <tbody>
           {filteredTransactions.map((txn) => (
-            <tr key={txn.id} className="border-b hover:bg-gray-50">
+            <tr key={txn.uuid} className="border-b hover:bg-gray-50">
               <td className="px-4 py-2">{new Date(txn.timestamp).toLocaleDateString()}</td>
               <td className="px-4 py-2">{txn.category}</td>
               <td className="px-4 py-2">{txn.subcategory}</td>
@@ -177,28 +177,28 @@ export default function HeadDetails() {
 
             <label>Head</label>
             <select className="w-full p-2 border rounded" onChange={(e) => {
-              setEditingTransaction({ ...editingTransaction, head_id: e.target.value });
+              setEditingTransaction({ ...editingTransaction, head_uuid: e.target.value });
               fetchCategories(e.target.value);
             }}>
               <option>Select Head</option>
-              {heads.map(h => <option key={h.id} value={h.id}>{h.name}</option>)}
+              {heads.map(h => <option key={h.uuid} value={h.uuid}>{h.name}</option>)}
             </select>
 
             <label>Category</label>
             <select className="w-full p-2 border rounded" onChange={(e) => {
-              setEditingTransaction({ ...editingTransaction, category_id: e.target.value });
+              setEditingTransaction({ ...editingTransaction, category_uuid: e.target.value });
               fetchSubcategories(e.target.value);
             }}>
               <option>Select Category</option>
-              {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+              {categories.map(c => <option key={c.uuid} value={c.uuid}>{c.name}</option>)}
             </select>
 
             <label>Subcategory</label>
             <select className="w-full p-2 border rounded" onChange={(e) => {
-              setEditingTransaction({ ...editingTransaction, subcategory_id: e.target.value });
+              setEditingTransaction({ ...editingTransaction, subcategory_uuid: e.target.value });
             }}>
               <option>Select Subcategory</option>
-              {subcategories.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
+              {subcategories.map(s => <option key={s.uuid} value={s.uuid}>{s.name}</option>)}
             </select>
 
             <label>Description</label>
