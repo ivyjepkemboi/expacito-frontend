@@ -142,7 +142,7 @@ export default function RecentIncome() {
                 </TableRow>
               ) : (
                 filteredIncome.map((inc) => (
-                  <TableRow key={inc.id}>
+                  <TableRow key={inc.uuid}>
                     <TableCell className="py-3 text-gray-800 dark:text-white/90">{inc.source}</TableCell>
                     <TableCell className="py-3 text-gray-500 text-theme-sm dark:text-gray-400">
                       {inc.amount.toLocaleString()}

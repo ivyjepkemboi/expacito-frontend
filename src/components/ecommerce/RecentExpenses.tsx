@@ -129,7 +129,7 @@ export default function RecentExpenses({ transactions, loading }) {
                 </TableRow>
               ) : (
                 filteredExpenses.map((expense) => (
-                  <TableRow key={expense.id}>
+                  <TableRow key={expense.uuid}>
                     <TableCell className="py-3 text-gray-800 dark:text-white/90">
                       {expense.head || "-"}
                     </TableCell>

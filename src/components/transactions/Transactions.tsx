@@ -88,17 +88,23 @@ export default function Transactions({ transactions, setTransactions, fetchData,
     setError(null);
 
     const transactionData =
-      modalContent === "Add Income"
-        ? { type: "income", source, amount: parseFloat(amount), description }
-        : {
-            type: "expense",
-            head_id: parseInt(selectedHead),
-            category_id: parseInt(selectedCategory),
-            subcategory_id: parseInt(selectedSubcategory),
-            title: description,
-            amount: parseFloat(amount),
-            description,
-          };
+    modalContent === "Add Income"
+      ? {
+          type: "income",
+          source,
+          amount: parseFloat(amount),
+          description
+        }
+      : {
+          type: "expense",
+          head_uuid: selectedHead,
+          category_uuid: selectedCategory,
+          subcategory_uuid: selectedSubcategory,
+          title: description,
+          amount: parseFloat(amount),
+          description
+        };
+  
 
     try {
       const response = await fetch(`${BASE_URL}/api/transactions`, {
@@ -152,7 +158,7 @@ export default function Transactions({ transactions, setTransactions, fetchData,
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "Failed to add item");
   
-      const newItem = { id: data.id, name: newItemModal.name };
+      const newItem = { uuid: data.uuid, name: newItemModal.name };
   
       if (newItemModal.type === "head") setHeads([...heads, newItem]);
       else if (newItemModal.type === "category") setCategories([...categories, newItem]);
@@ -204,7 +210,7 @@ export default function Transactions({ transactions, setTransactions, fetchData,
                     <select className="w-full p-2 border rounded-md" value={{ head: selectedHead, category: selectedCategory, subcategory: selectedSubcategory }[field]} onChange={{ head: handleHeadSelect, category: handleCategorySelect, subcategory: handleSubcategorySelect }[field]} required>
                       <option value="">Select {field}</option>
                       {(field === "head" ? heads : field === "category" ? categories : subcategories).map((item) => (
-                        <option key={item.id} value={item.id}>{item.name}</option>
+                        <option key={item.uuid} value={item.uuid}>{item.name}</option>
                       ))}
                     </select>
                   </div>
