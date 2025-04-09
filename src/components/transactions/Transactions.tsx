@@ -21,6 +21,8 @@ export default function Transactions({ transactions, setTransactions, fetchData,
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [newItemModal, setNewItemModal] = useState({ open: false, type: "", name: "" });
+  const [timestamp, setTimestamp] = useState("");
+
 
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
@@ -45,6 +47,7 @@ export default function Transactions({ transactions, setTransactions, fetchData,
     setCategories([]);
     setSubcategories([]);
     setError(null);
+    setTimestamp(""); // <--- Reset here
     setIsModalOpen(true);
   };
 
@@ -86,14 +89,16 @@ export default function Transactions({ transactions, setTransactions, fetchData,
     e.preventDefault();
     setLoading(true);
     setError(null);
-
+    
     const transactionData =
     modalContent === "Add Income"
       ? {
           type: "income",
           source,
           amount: parseFloat(amount),
-          description
+          description,
+          ...(timestamp && { timestamp: `${timestamp}:00` }) // Append seconds manually
+
         }
       : {
           type: "expense",
@@ -102,8 +107,11 @@ export default function Transactions({ transactions, setTransactions, fetchData,
           subcategory_uuid: selectedSubcategory,
           title: description,
           amount: parseFloat(amount),
-          description
+          description,
+          ...(timestamp && { timestamp: `${timestamp}:00` }) // Append seconds manually
+
         };
+  
   
 
     try {
@@ -220,6 +228,13 @@ export default function Transactions({ transactions, setTransactions, fetchData,
 
             <label className="block mt-3 mb-2 text-sm font-medium">Description</label>
             <textarea className="w-full p-2 border rounded-md" value={description} onChange={(e) => setDescription(e.target.value)} />
+            <label className="block mt-3 mb-2 text-sm font-medium">Date & Time</label>
+              <input
+                type="datetime-local"
+                className="w-full p-2 border rounded-md"
+                value={timestamp}
+                onChange={(e) => setTimestamp(e.target.value)}
+              />
 
             <div className="mt-4 flex justify-end">
               <Button variant="primary" size="sm" type="submit" disabled={loading}>
