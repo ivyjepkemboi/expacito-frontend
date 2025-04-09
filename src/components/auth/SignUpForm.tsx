@@ -16,6 +16,7 @@ export default function SignUpForm() {
   const [isChecked, setIsChecked] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate(); // React Router hook for navigation
+  const [loading, setLoading] = useState(false);
 
   const handleSignUp = async (e) => {
     e.preventDefault();
@@ -44,20 +45,20 @@ export default function SignUpForm() {
     } catch (err) {
       setError(err.message);
     }
+    finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="flex flex-col flex-1 w-full overflow-y-auto lg:w-1/2 no-scrollbar">
-      <div className="w-full max-w-md mx-auto mb-5 sm:pt-10">
-        <Link
-          to="/"
-          className="inline-flex items-center text-sm text-gray-500 transition-colors hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
-        >
-          <ChevronLeftIcon className="size-5" />
-          Back to dashboard
-        </Link>
-      </div>
+      
       <div className="flex flex-col justify-center flex-1 w-full max-w-md mx-auto">
+      {loading ? (
+        <div className="flex justify-center items-center h-64">
+          <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-brand-500"></div>
+        </div>
+      ) : (
         <div>
           <div className="mb-5 sm:mb-8">
             <h1 className="mb-2 font-semibold text-gray-800 text-title-sm dark:text-white/90 sm:text-title-md">
@@ -182,6 +183,7 @@ export default function SignUpForm() {
             </p>
           </div>
         </div>
+      )}
       </div>
     </div>
   );

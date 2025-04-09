@@ -35,7 +35,7 @@ export default function IncomeExpenseChart({ totalIncome, totalExpenses }) {
             show: true,
             total: {
               show: true,
-              label: "Income %",
+              label: "Income",
               formatter: () => `${series[0]}%`,
               fontSize: "36px",
               fontWeight: "600",

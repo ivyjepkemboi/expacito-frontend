@@ -14,9 +14,12 @@ export default function SignInForm() {
   const [isChecked, setIsChecked] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate(); // React Router hook for navigation
+  const [loading, setLoading] = useState(false);
+
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       const response = await fetch(`${BASE_URL}/auth/login`, {
@@ -40,12 +43,20 @@ export default function SignInForm() {
       navigate("/dashboard");
     } catch (err) {
       setError(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="flex flex-col flex-1">
       <div className="flex flex-col justify-center flex-1 w-full max-w-md mx-auto">
+      {loading ? (
+        <div className="flex justify-center items-center h-64">
+          <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-brand-500"></div>
+        </div>
+      ) : (
+        
         <div>
           <div className="mb-5 sm:mb-8">
             <h1 className="mb-2 font-semibold text-gray-800 text-title-sm dark:text-white/90 sm:text-title-md">
@@ -61,6 +72,7 @@ export default function SignInForm() {
               {error}
             </p>
           )}
+          
 
           <form onSubmit={handleLogin}>
             <div className="space-y-6">
@@ -127,6 +139,7 @@ export default function SignInForm() {
             </p>
           </div>
         </div>
+      )}
       </div>
     </div>
   );
