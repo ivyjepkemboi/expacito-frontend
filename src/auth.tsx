@@ -22,7 +22,7 @@ export const isTokenExpired = (token: string | null): boolean => {
 
   try {
     const decoded: { exp: number } = jwtDecode(token);
-    const currentTime = Date.now() / 10000;
+    const currentTime = Date.now() / 100;
     return decoded.exp < currentTime;
   } catch (error) {
     return true;
