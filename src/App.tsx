@@ -22,11 +22,16 @@ import Landing from "./pages/Landing";
 import ExpensesList from "./components/ExpensesList";
 import HeadTransactions from "./components/HeadTransactions";
 import HeadDetails from "./pages/HeadDetails";
+import ManageCategories from "./pages/ManageCategories";
+import TokenWatcher from "./components/common/TokenWatcher";
+import CategoriesManager from "./pages/CategoriesManager";
 
 export default function App() {
   return (
     <>
+    
       <Router>
+      <TokenWatcher/>
         <ScrollToTop />
         <Routes>
           {/* Landing Page (Without Sidebar) */}
@@ -39,6 +44,9 @@ export default function App() {
             <Route path="/calendar" element={<Calendar />} />
             <Route path="/blank" element={<Blank />} />
             <Route path="/expenses" element={<ExpensesList />} />
+            <Route path="/mc" element ={<ManageCategories/>} />
+            <Route path="/categories-manager" element ={<CategoriesManager/>} />
+            
 
             {/* Forms */}
             <Route path="/form-elements" element={<FormElements />} />

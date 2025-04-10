@@ -5,7 +5,7 @@ import Button from "../ui/button/Button";
 import { Modal } from "../ui/modal";
 import { BASE_URL } from "../../api";
 
-export default function RecentIncome() {
+export default function RecentIncome(transactions) {
   const [income, setIncome] = useState([]);
   const [filteredIncome, setFilteredIncome] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -46,7 +46,7 @@ export default function RecentIncome() {
     };
 
     fetchIncome();
-  }, []);
+  }, [filteredIncome]);
 
   const handleFilter = () => {
     let filtered = income;

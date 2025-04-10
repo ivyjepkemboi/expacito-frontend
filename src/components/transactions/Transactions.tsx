@@ -4,6 +4,9 @@ import { BoxIcon } from "../../icons/";
 import { Modal } from "../../components/ui/modal";
 import { BASE_URL } from "../../api";
 import { useNavigate } from "react-router";
+import { DollarLineIcon } from "../../icons/";
+import { FolderIcon } from "../../icons/";
+import { PaperPlaneIcon } from "../../icons/";
 
 export default function Transactions({ transactions, setTransactions, fetchData, refreshHeads }) // ✅ clearly added here
   {
@@ -183,11 +186,15 @@ export default function Transactions({ transactions, setTransactions, fetchData,
   return (
     <>
       <div className="flex justify-end m-4 space-x-4">
-        <Button size="sm" variant="primary" startIcon={<BoxIcon className="size-5" />} onClick={() => openModal("Add Income")}>
+        <Button size="sm" variant="primary" startIcon={<DollarLineIcon className="size-5" />} onClick={() => openModal("Add Income")}>
           Add Income
         </Button>
-        <Button size="sm" variant="primary" startIcon={<BoxIcon className="size-5" />} onClick={() => openModal("Add Expense")}>
+        <Button size="sm" variant="primary" startIcon={<PaperPlaneIcon className="size-5" />} onClick={() => openModal("Add Expense")}>
           Add Expense
+        </Button>
+
+        <Button size="sm" variant="primary" startIcon={<FolderIcon className="size-5" />} onClick={() => navigate("/categories-manager")}>
+          Manage Categories
         </Button>
       </div>
 
