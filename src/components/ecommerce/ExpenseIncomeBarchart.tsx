@@ -37,7 +37,7 @@ export default function ExpenseIncomeBarchart() {
 
         transactions.forEach((transaction) => {
           if (transaction.type === "expense") {
-            const monthIndex = new Date(transaction.timestamp).getMonth();
+            const monthIndex = new Date(transaction.transaction_date).getMonth();
             expensesByMonth[monthIndex] += transaction.amount;
           }
         });

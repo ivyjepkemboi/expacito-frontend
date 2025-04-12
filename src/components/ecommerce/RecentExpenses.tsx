@@ -17,7 +17,7 @@ export default function RecentExpenses({ transactions, loading }) {
   useEffect(() => {
     const expenseList = transactions
       .filter((t) => t.type === "expense")
-      .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+      .sort((a, b) => new Date(b.transaction_date) - new Date(a.transaction_date))
       .slice(0, 5);
 
     setFilteredExpenses(expenseList);
@@ -143,7 +143,7 @@ export default function RecentExpenses({ transactions, loading }) {
                       {expense.amount.toLocaleString()}
                     </TableCell>
                     <TableCell className="py-3 text-gray-500 text-theme-sm dark:text-gray-400">
-                      {new Date(expense.timestamp).toLocaleDateString()}
+                      {new Date(expense.transaction_date).toLocaleDateString()}
                     </TableCell>
                   </TableRow>
                 ))

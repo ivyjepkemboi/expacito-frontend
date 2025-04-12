@@ -55,7 +55,7 @@ export default function RecentIncome(transactions) {
     }
     if (selectedDate) {
       filtered = filtered.filter(
-        (inc) => new Date(inc.timestamp).toISOString().split("T")[0] === selectedDate
+        (inc) => new Date(inc.transaction_date).toISOString().split("T")[0] === selectedDate
       );
     }
     setFilteredIncome(filtered);
@@ -148,7 +148,7 @@ export default function RecentIncome(transactions) {
                       {inc.amount.toLocaleString()}
                     </TableCell>
                     <TableCell className="py-3 text-gray-500 text-theme-sm dark:text-gray-400">
-                      {new Date(inc.timestamp).toLocaleDateString()}
+                      {new Date(inc.transaction_date).toLocaleDateString()}
                     </TableCell>
                   </TableRow>
                 ))

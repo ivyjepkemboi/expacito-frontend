@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import Button from "../../components/ui/button/Button";
-import { BoxIcon } from "../../icons/";
 import { Modal } from "../../components/ui/modal";
 import { BASE_URL } from "../../api";
 import { useNavigate } from "react-router";
@@ -25,6 +24,8 @@ export default function Transactions({ transactions, setTransactions, fetchData,
   const [error, setError] = useState(null);
   const [newItemModal, setNewItemModal] = useState({ open: false, type: "", name: "" });
   const [timestamp, setTimestamp] = useState("");
+  const [transactionDate, setTransactionDate] = useState("");
+
 
 
   const token = localStorage.getItem("token");
@@ -100,7 +101,7 @@ export default function Transactions({ transactions, setTransactions, fetchData,
           source,
           amount: parseFloat(amount),
           description,
-          ...(timestamp && { timestamp: `${timestamp}:00` }) // Append seconds manually
+          transaction_date: transactionDate
 
         }
       : {
@@ -111,8 +112,7 @@ export default function Transactions({ transactions, setTransactions, fetchData,
           title: description,
           amount: parseFloat(amount),
           description,
-          ...(timestamp && { timestamp: `${timestamp}:00` }) // Append seconds manually
-
+          transaction_date: transactionDate
         };
   
   
@@ -182,6 +182,11 @@ export default function Transactions({ transactions, setTransactions, fetchData,
     }
   };
   
+  useEffect(() => {
+    const today = new Date().toISOString().split("T")[0];
+    setTransactionDate(today);
+  }, []);
+  
 
   return (
     <>
@@ -235,13 +240,15 @@ export default function Transactions({ transactions, setTransactions, fetchData,
 
             <label className="block mt-3 mb-2 text-sm font-medium">Description</label>
             <textarea className="w-full p-2 border rounded-md" value={description} onChange={(e) => setDescription(e.target.value)} />
-            <label className="block mt-3 mb-2 text-sm font-medium">Date & Time</label>
+            <label className="block mt-3 mb-2 text-sm font-medium">Transaction Date</label>
               <input
-                type="datetime-local"
+                type="date"
                 className="w-full p-2 border rounded-md"
-                value={timestamp}
-                onChange={(e) => setTimestamp(e.target.value)}
+                value={transactionDate}
+                onChange={(e) => setTransactionDate(e.target.value)}
+                required
               />
+
 
             <div className="mt-4 flex justify-end">
               <Button variant="primary" size="sm" type="submit" disabled={loading}>

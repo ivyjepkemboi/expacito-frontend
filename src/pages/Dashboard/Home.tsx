@@ -87,7 +87,7 @@ export default function Home() {
 
 {/* Middle Detailed Charts */}
 <div className="col-span-12 xl:col-span-7">
-  <ExpenseIncomeBarchart />
+  <ExpenseIncomeBarchart transactions={transactions}/>
 </div>
 
 <div className="col-span-12 xl:col-span-5">
