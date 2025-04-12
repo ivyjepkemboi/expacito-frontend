@@ -51,7 +51,7 @@ export default function ExpenseIncomeBarchart() {
     };
 
     fetchExpenses();
-  }, [monthlyExpenses]);
+  }, []);
 
   const options: ApexOptions = {
     colors: ["#465FFF"],

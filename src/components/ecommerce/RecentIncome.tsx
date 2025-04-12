@@ -46,7 +46,7 @@ export default function RecentIncome(transactions) {
     };
 
     fetchIncome();
-  }, [filteredIncome]);
+  }, []);
 
   const handleFilter = () => {
     let filtered = income;

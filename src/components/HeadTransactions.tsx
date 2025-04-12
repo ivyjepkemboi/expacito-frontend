@@ -28,7 +28,7 @@ export default function HeadTransactions({ transactions }) {
         setHeads(summarizedHeads);
       })
       .catch((err) => setError(err.message));
-  }, [heads]);
+  }, []);
 
   const handleViewDetails = (headName) => {
     navigate(`/heads/${encodeURIComponent(headName)}`);
