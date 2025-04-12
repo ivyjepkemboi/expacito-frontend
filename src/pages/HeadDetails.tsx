@@ -71,7 +71,7 @@ export default function HeadDetails() {
   const openEditModal = (txn) => {
     setEditingTransaction({
       ...txn,
-      timestamp: txn.timestamp.split("T")[0],
+      transaction_date: txn.transaction_date.split("T")[0],
     });
 
     const headObj = heads.find((h) => h.name === txn.head);
@@ -141,7 +141,7 @@ export default function HeadDetails() {
         <tbody>
           {filteredTransactions.map((txn) => (
             <tr key={txn.uuid} className="border-b hover:bg-gray-50">
-              <td className="px-4 py-2">{new Date(txn.timestamp).toLocaleDateString()}</td>
+              <td className="px-4 py-2">{new Date(txn.transaction_date).toLocaleDateString()}</td>
               <td className="px-4 py-2">{txn.category}</td>
               <td className="px-4 py-2">{txn.subcategory}</td>
               <td className="px-4 py-2">{txn.description || "-"}</td>
@@ -171,8 +171,8 @@ export default function HeadDetails() {
             <input
               type="date"
               className="w-full p-2 border rounded"
-              value={editingTransaction.timestamp}
-              onChange={(e) => setEditingTransaction({ ...editingTransaction, timestamp: e.target.value })}
+              value={editingTransaction.transaction_date}
+              onChange={(e) => setEditingTransaction({ ...editingTransaction, transaction_date: e.target.value })}
             />
 
             <label>Head</label>
