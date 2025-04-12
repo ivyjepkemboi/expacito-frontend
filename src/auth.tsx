@@ -22,7 +22,7 @@ export const isTokenExpired = (token: string | null): boolean => {
 
   try {
     const decoded: { exp: number } = jwtDecode(token);
-    const currentTime = Date.now() / 100;
+    const currentTime = Date.now() / 1000;
     return decoded.exp < currentTime;
   } catch (error) {
     return true;
@@ -31,6 +31,6 @@ export const isTokenExpired = (token: string | null): boolean => {
 
 export const logout = (navigate: (path: string) => void) => {
   localStorage.removeItem("token");
-  navigate("/sign-in"); // Update if your path differs
+  navigate("/sign-in");
 };
 
