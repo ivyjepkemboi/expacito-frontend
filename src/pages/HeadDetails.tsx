@@ -19,6 +19,8 @@ export default function HeadDetails() {
   const [heads, setHeads] = useState([]);
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedSubcategory, setSelectedSubcategory] = useState("");
 
   useEffect(() => {
     fetch(`${BASE_URL}/api/transactions`, {
@@ -32,7 +34,6 @@ export default function HeadDetails() {
       })
       .catch((err) => setError(err.message));
 
-    // Fetch heads for dropdown
     fetch(`${BASE_URL}/api/heads`, {
       headers: { Authorization: `Bearer ${token}` },
     })
@@ -43,13 +44,34 @@ export default function HeadDetails() {
   const handleSearch = (e) => {
     const query = e.target.value.toLowerCase();
     setSearchQuery(query);
+    filterTransactions(selectedCategory, selectedSubcategory, query);
+  };
+
+  const filterTransactions = (category, subcategory, query) => {
     setFilteredTransactions(
-      transactions.filter((txn) =>
-        txn.category.toLowerCase().includes(query) ||
-        txn.subcategory.toLowerCase().includes(query) ||
-        txn.description?.toLowerCase().includes(query)
-      )
+      transactions.filter((txn) => {
+        const matchesCategory = category ? txn.category === category : true;
+        const matchesSubcategory = subcategory ? txn.subcategory === subcategory : true;
+        const matchesQuery =
+          txn.category.toLowerCase().includes(query) ||
+          txn.subcategory.toLowerCase().includes(query) ||
+          txn.description?.toLowerCase().includes(query);
+        return matchesCategory && matchesSubcategory && matchesQuery;
+      })
     );
+  };
+
+  const handleCategoryChange = (e) => {
+    const value = e.target.value;
+    setSelectedCategory(value);
+    setSelectedSubcategory("");
+    filterTransactions(value, "", searchQuery);
+  };
+
+  const handleSubcategoryChange = (e) => {
+    const value = e.target.value;
+    setSelectedSubcategory(value);
+    filterTransactions(selectedCategory, value, searchQuery);
   };
 
   const fetchCategories = (headId) => {
@@ -113,19 +135,48 @@ export default function HeadDetails() {
     }
   };
 
+  const totalAmount = filteredTransactions.reduce((sum, txn) => sum + txn.amount, 0);
+
+  const uniqueCategories = [...new Set(transactions.map(txn => txn.category))];
+  const uniqueSubcategories = [...new Set(transactions.filter(txn => !selectedCategory || txn.category === selectedCategory).map(txn => txn.subcategory))];
+
   return (
     <div className="p-6">
       <h2 className="text-2xl font-semibold mb-4">Transactions for "{headName}"</h2>
 
       {error && <p className="text-red-500 bg-red-100 p-2 rounded mb-4">{error}</p>}
-
+{/* 
       <input
         type="text"
         placeholder="Search category, subcategory, or description"
         value={searchQuery}
         onChange={handleSearch}
         className="w-full p-2 border rounded-md mb-4"
-      />
+      /> */}
+
+      <div className="flex gap-4 mb-4">
+        <select
+          className="w-1/2 p-2 border rounded"
+          value={selectedCategory}
+          onChange={handleCategoryChange}
+        >
+          <option value="">Select a category</option>
+          {uniqueCategories.map((cat) => (
+            <option key={cat} value={cat}>{cat}</option>
+          ))}
+        </select>
+
+        <select
+          className="w-1/2 p-2 border rounded"
+          value={selectedSubcategory}
+          onChange={handleSubcategoryChange}
+        >
+          <option value="">Select a sub-category</option>
+          {uniqueSubcategories.map((subcat) => (
+            <option key={subcat} value={subcat}>{subcat}</option>
+          ))}
+        </select>
+      </div>
 
       <table className="w-full bg-white rounded-md shadow">
         <thead className="bg-gray-100">
@@ -155,6 +206,10 @@ export default function HeadDetails() {
           ))}
         </tbody>
       </table>
+
+      <p className="mt-4 text-right font-semibold text-lg">
+        Total Amount: {totalAmount.toLocaleString()}
+      </p>
 
       <Modal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} title="Edit Transaction">
         {editingTransaction && (
