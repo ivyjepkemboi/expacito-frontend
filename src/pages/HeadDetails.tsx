@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import Button from "../components/ui/button/Button";
 import { Modal } from "../components/ui/modal";
 import { BASE_URL } from "../api";
+import AppHeader from "../layout/AppHeader";
 
 export default function HeadDetails() {
   const { headName } = useParams();
@@ -141,6 +142,8 @@ export default function HeadDetails() {
   const uniqueSubcategories = [...new Set(transactions.filter(txn => !selectedCategory || txn.category === selectedCategory).map(txn => txn.subcategory))];
 
   return (
+    <>
+    <AppHeader/>
     <div className="p-6">
       <h2 className="text-2xl font-semibold mb-4">Transactions for "{headName}"</h2>
 
@@ -267,5 +270,6 @@ export default function HeadDetails() {
         )}
       </Modal>
     </div>
+    </>
   );
 }
